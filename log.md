@@ -10,7 +10,7 @@ Enable APIs and Services, Maps JavaScript API, Enable, Credentials, Public API A
 
 ## 2. Create initial `property.html`
 
-from https://developers.google.com/maps/documentation/javascript/examples/place-search
+from https://developers.google.com/maps/documentation/javascript/examples/place-search and https://developers.google.com/maps/documentation/javascript/tutorial
 
 ```html
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
@@ -45,4 +45,15 @@ This API project is not authorized to use this API. Please ensure this API is ac
 Enabled Places API: https://console.developers.google.com/google/maps-apis/apis/places-backend.googleapis.com
 
 Changeable parameters: `radius` and `type` (for type of building/place).
+
+Other types: https://developers.google.com/places/supported_types
+
+
+## 5. Get results in a list
+
+save results from API query in a js array https://hackernoon.com/how-i-sort-of-got-around-the-google-maps-api-results-limit-1c673e66ef36
+
+Changed marker to place's photo
+
+js array to html table: https://stackoverflow.com/a/43774152/4569908
 

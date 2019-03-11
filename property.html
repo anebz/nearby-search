@@ -1,4 +1,5 @@
-<!DocType html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!DOCTYPE html>
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -25,6 +26,7 @@
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
       var map, service, infowindow, currentLocation;
+      var properties = [];
 
       function initMap() {
 
@@ -71,7 +73,7 @@
           var request = {
             location: currentLocation,
             radius: 1000,
-            type: ['restaurant']
+            type: ['property']
           };
           service.nearbySearch(request, callback);
         }
@@ -80,15 +82,27 @@
           if (status == google.maps.places.PlacesServiceStatus.OK) {
             for (var i = 0; i < results.length; i++) {
               var place = results[i];
+              properties.push([place.name, place.rating]);
               createMarker(results[i]);
             }
+            properties.sort((a, b) => (a[1] < b[1]) ? 1 : -1);
+            properties.forEach(function (item) {
+              $('tbody').append('<tr><td>' + item[0] + '</td><td>' + item[1] + '</td><td>')
+            });
           }
         }
 
         function createMarker(place) {
+          var photos = place.photos;
+          if (!photos) {
+            return;
+          }
+          var placeLoc = place.geometry.location;
           var marker = new google.maps.Marker({
             map: map,
-            position: place.geometry.location
+            position: place.geometry.location,
+            title: place.name,
+            icon: photos[0].getUrl({'maxWidth': 40, 'maxHeight': 40})
           });
 
           google.maps.event.addListener(marker, 'click', function () {
@@ -99,8 +113,20 @@
       }
 
     </script>
+    
   </head>
   <body>
     <div id="map"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>Property name</th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
   </body>
 </html>
