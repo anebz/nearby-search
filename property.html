@@ -1,7 +1,8 @@
 <!DocType html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+
     <meta charset="utf-8">
     <style>
       /* Optional: Makes the sample page fill the window. */
@@ -17,26 +18,52 @@
       height: 100%;
       }
     </style>
+
     <script>
       // This example requires the Places library. Include the libraries=places
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-      var map;
-      var service;
-      var infowindow;
+      var map, service, infowindow;
 
       function initMap() {
-        var initial_location = new google.maps.LatLng(-33.8665433, 151.1956316)
 
         infowindow = new google.maps.InfoWindow();
 
-        map = new google.maps.Map(
-          document.getElementById('map'), { 
-            center: initial_location, 
+        map = new google.maps.Map(document.getElementById('map'), { 
             zoom: 15 
           }
         );
+        infoWindow = new google.maps.InfoWindow;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+        // function for when the location doesn't work properly
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+          infoWindow.setPosition(pos);
+          infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+          infoWindow.open(map);
+        }
 
         // what we're looking for
         var request = {
@@ -46,20 +73,19 @@
           type: ['restaurant']
         };
 
-
         var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, callback);
 
-        /*
         service.findPlaceFromQuery(request, function (results, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (var i = 0; i < results.length; i++) {
               createMarker(results[i]);
             }
+
             map.setCenter(results[0].geometry.location);
           }
         });
-        */
+
+        service.nearbySearch(request, callback);
 
         function callback(results, status) {
           if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -71,7 +97,6 @@
         }
 
       }
-      window.onload = initMap;
 
     </script>
   </head>
