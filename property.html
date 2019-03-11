@@ -24,14 +24,14 @@
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-      var map, service, infowindow;
+      var map, service, infowindow, currentLocation;
 
       function initMap() {
 
         infowindow = new google.maps.InfoWindow();
 
         map = new google.maps.Map(document.getElementById('map'), { 
-            zoom: 15 
+            zoom: 16 
           }
         );
         infoWindow = new google.maps.InfoWindow;
@@ -44,10 +44,10 @@
               lng: position.coords.longitude
             };
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
+            currentLocation = pos;
             infoWindow.open(map);
             map.setCenter(pos);
+            performSearch();
           }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
           });
@@ -65,27 +65,16 @@
           infoWindow.open(map);
         }
 
-        // what we're looking for
-        var request = {
-          location: initial_location,
-          radius: '500',
-          fields: ['name', 'geometry'],
-          type: ['restaurant']
-        };
-
         var service = new google.maps.places.PlacesService(map);
 
-        service.findPlaceFromQuery(request, function (results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-              createMarker(results[i]);
-            }
-
-            map.setCenter(results[0].geometry.location);
-          }
-        });
-
-        service.nearbySearch(request, callback);
+        function performSearch() {
+          var request = {
+            location: currentLocation,
+            radius: 1000,
+            type: ['restaurant']
+          };
+          service.nearbySearch(request, callback);
+        }
 
         function callback(results, status) {
           if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -96,6 +85,17 @@
           }
         }
 
+        function createMarker(place) {
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+
+          google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(place.name);
+            infowindow.open(map, this);
+          });
+        }
       }
 
     </script>
