@@ -57,3 +57,9 @@ Changed marker to place's photo
 
 js array to html table: https://stackoverflow.com/a/43774152/4569908
 
+This fulfills the first requirement `1. Make sure there's a list, which lets you see/find any property around your current location.`
+
+## 6. Clickable elements
+
+Clickable rows in tables https://www.electrictoolbox.com/jquey-make-entire-table-row-clickable/
+

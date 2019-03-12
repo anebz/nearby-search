@@ -73,7 +73,7 @@
           var request = {
             location: currentLocation,
             radius: 1000,
-            type: ['property']
+            type: ['hotel']
           };
           service.nearbySearch(request, callback);
         }
@@ -87,7 +87,7 @@
             }
             properties.sort((a, b) => (a[1] < b[1]) ? 1 : -1);
             properties.forEach(function (item) {
-              $('tbody').append('<tr><td>' + item[0] + '</td><td>' + item[1] + '</td><td>')
+              $('tbody').append('<tr><td><a href="' + item[0] + '">' + item[0] + '</a></td><td>' + item[1] + '</td><td>')
             });
           }
         }
@@ -112,21 +112,27 @@
         }
       }
 
+      $(document).ready(function () {
+        $('#example tr').click(function () {
+          var href = $(this).find("a").attr("href");
+          if (href) {
+            window.location = href;
+          }
+        });
+      });
     </script>
-    
   </head>
   <body>
     <div id="map"></div>
-      <table>
-        <thead>
-          <tr>
-            <th>Property name</th>
-            <th>Rating</th>
-          </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-      </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Property name</th>
+          <th>Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </body>
 </html>
