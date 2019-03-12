@@ -87,7 +87,7 @@
             }
             properties.sort((a, b) => (a[1] < b[1]) ? 1 : -1);
             properties.forEach(function (item) {
-              $('tbody').append('<tr><td><a href="' + item[0] + '">' + item[0] + '</a></td><td>' + item[1] + '</td><td>')
+              $('tbody').append('<tr><td onclick="book(this)" style="font-weight:bold">' + item[0] + '</td><td>' + item[1] + '</td><td>')
             });
           }
         }
@@ -112,19 +112,19 @@
         }
       }
 
-      $(document).ready(function () {
-        $('#example tr').click(function () {
-          var href = $(this).find("a").attr("href");
-          if (href) {
-            window.location = href;
-          }
-        });
-      });
     </script>
+
+    <script>
+      function book(x) {
+        alert("Property name is: " + $(x).text());
+      }
+    </script>
+
+
   </head>
   <body>
     <div id="map"></div>
-    <table>
+    <table id="mytable">
       <thead>
         <tr>
           <th>Property name</th>

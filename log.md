@@ -63,3 +63,7 @@ This fulfills the first requirement `1. Make sure there's a list, which lets you
 
 Clickable rows in tables https://www.electrictoolbox.com/jquey-make-entire-table-row-clickable/
 
+This way it redirected to a new url. onClick() method https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_tr_rowindex, calls a js function and get value from the HtmlTableCellElement https://stackoverflow.com/questions/37414416/how-to-get-text-from-htmltablecellelement
+
+## 7. Create JSON file
+
