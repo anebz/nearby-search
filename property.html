@@ -123,12 +123,11 @@
       var all_bookings = {
         bookings: []
       };
+      var username, user_id;
+      var all_users = [];
 
       // helper function to save a booking
       function save_booking(values) {
-        // static for now
-        var id = 1;
-        var name = "ane";
 
         var booking_user = {
           "name": values[0],
@@ -144,8 +143,8 @@
               "rating": values[2],
 
               "user": {
-                "id": id,
-                "name": name
+                "id": user_id,
+                "name": username
               }
             }
           ]
@@ -157,9 +156,23 @@
       }
 
       function display_all() {
-          booking_str = JSON.stringify(all_bookings, undefined, 2);
-          document.getElementById("json").innerHTML = booking_str;
+        booking_str = JSON.stringify(all_bookings, undefined, 2);
+        document.getElementById("json").innerHTML = booking_str;
+      }
+
+      function save_user() {
+        var x = document.getElementById("frm1");
+        username = x.elements[0].value;
+        // if the user already exists
+        if (all_users.includes(username)) {
+          user_id = all_users.indexOf(username) + 1;
+          return;
         }
+        all_users.push(username);
+        all_users = [...new Set(all_users)];
+        console.log(all_users)
+        user_id = all_users.length;
+      }
 
       $(document).ready(function () {
 
@@ -180,6 +193,10 @@
 
   </head>
   <body>
+    <form id="frm1">
+      Username: <input type="text" name="fname">
+    </form>
+    <button onclick="save_user()">Try it</button>
     <div id="map"></div>
     <table id="mytable">
       <thead>
@@ -194,7 +211,7 @@
     </table>
     <br>
     <div>
-      <button onclick="display_all()">Show list of all bookings</button>
+      <button onclick="display_all()">Show list of all booking requests</button>
       <pre id="json"></pre>
     </div>
   </body>

@@ -130,3 +130,8 @@ from https://stackoverflow.com/a/16862775/4569908
 Saved in `all_bookings`. Created button to display all bookings from the user (one user for now). 
 
 Also implemented helper functions to avoid repeating code. A fake booking can be done by clicking on the list or by clicking on the marker in the map.
+
+## 10. Ask for username and save each booking according to user
+
+todo: when listing all bookings, it should list all bookings from one user only
+keep track of user names and user id, each time a new user is added, if a user comes back, maintain the same user id. 
