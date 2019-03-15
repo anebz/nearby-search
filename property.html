@@ -145,7 +145,12 @@
                 }
               ]
             };
-            console.log(booking_dict)
+
+            booking_str = JSON.stringify(booking_dict, undefined, 2)
+            document.getElementById("json").innerHTML = booking_str;
+
+            alert("(fake) Booking successful!\n" + booking_str);
+
           }
         });
     </script>
@@ -164,5 +169,7 @@
       <tbody>
       </tbody>
     </table>
+    <h4>List of all bookings</h4>
+    <pre id="json"></pre>
   </body>
 </html>

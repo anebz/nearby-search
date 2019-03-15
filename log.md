@@ -121,5 +121,9 @@ from https://stackoverflow.com/a/48674935/4569908
 
 done, saved in `booking_dict`.
 
-## 8 Save to JSON file
+## 8. Display booking
+
+from https://stackoverflow.com/a/16862775/4569908
+
+## 9. Save all bookings
 
