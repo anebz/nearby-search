@@ -82,12 +82,13 @@
           if (status == google.maps.places.PlacesServiceStatus.OK) {
             for (var i = 0; i < results.length; i++) {
               var place = results[i];
-              properties.push([place.name, place.rating]);
+              var info = [place.name, place.id, place.rating]
+              properties.push(info);
               createMarker(results[i]);
             }
             properties.sort((a, b) => (a[1] < b[1]) ? 1 : -1);
             properties.forEach(function (item) {
-              $('tbody').append('<tr><td onclick="book(this)" style="font-weight:bold">' + item[0] + '</td><td>' + item[1] + '</td><td>')
+              $('tbody').append('<tr><td style="font-weight:bold">' + item[0] + '</td><td>' + item[1] + '</td><td>' + item[2] + '</td><td></tr>')
             });
           }
         }
@@ -115,11 +116,39 @@
     </script>
 
     <script>
-      function book(x) {
-        alert("Property name is: " + $(x).text());
-      }
-    </script>
+      $(document).ready(function () {
 
+          $("#mytable").on('click', 'tr', onCellClick);
+
+          function onCellClick() {
+
+            var rowValues = [];
+            $(this).find('td').each(function (item) {
+              temp = $(this);
+              rowValues.push(temp.text());
+            });
+
+            // static for now
+            var id = 1
+            var name = "ane"
+            var booking_dict = {
+              bookings: [
+                {
+                  "name": rowValues[0],
+                  "id": rowValues[1],
+                  "rating": rowValues[2],
+
+                  "user": {
+                    "id": id,
+                    "name": name
+                  }
+                }
+              ]
+            };
+            console.log(booking_dict)
+          }
+        });
+    </script>
 
   </head>
   <body>
@@ -128,6 +157,7 @@
       <thead>
         <tr>
           <th>Property name</th>
+          <th>Place ID</th>
           <th>Rating</th>
         </tr>
       </thead>

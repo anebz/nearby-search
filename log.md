@@ -65,5 +65,61 @@ Clickable rows in tables https://www.electrictoolbox.com/jquey-make-entire-table
 
 This way it redirected to a new url. onClick() method https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_tr_rowindex, calls a js function and get value from the HtmlTableCellElement https://stackoverflow.com/questions/37414416/how-to-get-text-from-htmltablecellelement
 
-## 7. Create JSON file
+## 7. Get dictionary content
+
+The JSON file should look like this:
+
+```json
+{
+  "bookings": [
+    {
+      "id": "weeoke",
+      "property_id": "wer45",
+      "property_name": "Munich Marriott Hotel",
+      "city": "Munich",
+
+      "user": {
+        "id": "xyz",
+        "name": "John"
+      }
+    }
+  ]
+}
+```
+
+User id and name static for now. `place.city`, `place.property_id` and `place.property_name` return undefined always. Maybe I don't have authorization on free plan?
+
+from https://developers.google.com/places/web-service/search:
+
+> The Basic category includes the following fields: formatted_address, geometry, icon, id, name, permanently_closed, photos, place_id, plus_code, scope, types, user_ratings_total
+
+
+Substituting `place.city`, `place.property_id` and `place.property_name` by `place.id`, info in the json will be:
+
+```json
+{
+  "bookings": [
+    {
+      "name": "the_name",
+      "id": "bed51ae69",
+      "rating": 3.8,
+
+      "user": {
+        "id": "123",
+        "name": "John"
+      }
+    }
+  ]
+}
+```
+
+### 7.1. Retrieve data from table
+
+from https://stackoverflow.com/a/48674935/4569908
+
+### 7.2. Save info in booking dictionary
+
+done, saved in `booking_dict`.
+
+## 8 Save to JSON file
 
