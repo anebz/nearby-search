@@ -6,20 +6,19 @@
 
     <meta charset="utf-8">
     <style>
-      /* Optional: Makes the sample page fill the window. */
       html, body {
       height: 100%;
       margin: 0;
       padding: 20;
       }
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+
       #map {
-      width: 75%;
+      width: 100%;
       height: 100%;
       }
     </style>
 
+    <!--map script -->
     <script>
       // This example requires the Places library. Include the libraries=places
       // parameter when you first load the API. For example:
@@ -109,50 +108,74 @@
           google.maps.event.addListener(marker, 'click', function () {
             infowindow.setContent(place.name);
             infowindow.open(map, this);
+
+            var info = [place.name, place.id, place.rating];
+            save_booking(info);
           });
         }
       }
 
     </script>
 
+    <!--webpage script -->
     <script>
+
+      var all_bookings = {
+        bookings: []
+      };
+
+      // helper function to save a booking
+      function save_booking(values) {
+        // static for now
+        var id = 1;
+        var name = "ane";
+
+        var booking_user = {
+          "name": values[0],
+          "id": values[1],
+          "rating": values[2],
+        };
+
+        var booking_dict = {
+          bookings: [
+            {
+              "name": values[0],
+              "id": values[1],
+              "rating": values[2],
+
+              "user": {
+                "id": id,
+                "name": name
+              }
+            }
+          ]
+        };
+
+        booking_str = JSON.stringify(booking_dict, undefined, 2);
+        all_bookings["bookings"].push(booking_user);
+        alert("(fake) Booking successful!\n" + booking_str);
+      }
+
+      function display_all() {
+          booking_str = JSON.stringify(all_bookings, undefined, 2);
+          document.getElementById("json").innerHTML = booking_str;
+        }
+
       $(document).ready(function () {
 
-          $("#mytable").on('click', 'tr', onCellClick);
+        $("#mytable").on('click', 'tr', onCellClick);
 
-          function onCellClick() {
+        function onCellClick() {
 
-            var rowValues = [];
-            $(this).find('td').each(function (item) {
-              temp = $(this);
-              rowValues.push(temp.text());
-            });
+          var rowValues = [];
+          $(this).find('td').each(function (item) {
+            temp = $(this);
+            rowValues.push(temp.text());
+          });
 
-            // static for now
-            var id = 1
-            var name = "ane"
-            var booking_dict = {
-              bookings: [
-                {
-                  "name": rowValues[0],
-                  "id": rowValues[1],
-                  "rating": rowValues[2],
-
-                  "user": {
-                    "id": id,
-                    "name": name
-                  }
-                }
-              ]
-            };
-
-            booking_str = JSON.stringify(booking_dict, undefined, 2)
-            document.getElementById("json").innerHTML = booking_str;
-
-            alert("(fake) Booking successful!\n" + booking_str);
-
-          }
-        });
+          save_booking(rowValues);
+        }
+      });
     </script>
 
   </head>
@@ -169,7 +192,10 @@
       <tbody>
       </tbody>
     </table>
-    <h4>List of all bookings</h4>
-    <pre id="json"></pre>
+    <br>
+    <div>
+      <button onclick="display_all()">Show list of all bookings</button>
+      <pre id="json"></pre>
+    </div>
   </body>
 </html>

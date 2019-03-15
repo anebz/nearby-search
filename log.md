@@ -127,3 +127,6 @@ from https://stackoverflow.com/a/16862775/4569908
 
 ## 9. Save all bookings
 
+Saved in `all_bookings`. Created button to display all bookings from the user (one user for now). 
+
+Also implemented helper functions to avoid repeating code. A fake booking can be done by clicking on the list or by clicking on the marker in the map.
