@@ -135,3 +135,34 @@ Also implemented helper functions to avoid repeating code. A fake booking can be
 
 todo: when listing all bookings, it should list all bookings from one user only
 keep track of user names and user id, each time a new user is added, if a user comes back, maintain the same user id. 
+
+## 11. Display all bookings of a certain user
+
+if the user doesn't exist, an alert dialog shows up.
+this requires saving all bookings according to the user. To preserve certain anonymity, I saved them according to the user id.
+If a booking request is attempted before inserting a username, an alert dialog shows up and no booking request is made.
+
+The whole dictionary of all bookings from all users has this shape:
+
+```json
+{
+  "1": {
+    "bookings": [
+      {
+        "name": "name1",
+        "id": "id1",
+        "rating": "4.4"
+      }
+    ]
+  },
+  "2": {
+    "bookings": [
+      {
+        "name": "name2",
+        "id": "id2",
+        "rating": "3.7"
+      }
+    ]
+  },
+}
+```

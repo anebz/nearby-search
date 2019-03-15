@@ -85,7 +85,7 @@
               properties.push(info);
               createMarker(results[i]);
             }
-            properties.sort((a, b) => (a[1] < b[1]) ? 1 : -1);
+            properties.sort((a, b) => (a[2] < b[2]) ? 1 : -1);
             properties.forEach(function (item) {
               $('tbody').append('<tr><td style="font-weight:bold">' + item[0] + '</td><td>' + item[1] + '</td><td>' + item[2] + '</td><td></tr>')
             });
@@ -120,9 +120,7 @@
     <!--webpage script -->
     <script>
 
-      var all_bookings = {
-        bookings: []
-      };
+      var all_bookings = {};
       var username, user_id;
       var all_users = [];
 
@@ -150,13 +148,32 @@
           ]
         };
 
+        if(Object.keys(all_users).length === 0) {
+          alert("Please insert a username first");
+          return;
+        }
+
+        if (!(user_id in all_bookings)) {
+          all_bookings[user_id] = {
+            "bookings": []
+          };
+        }
+        all_bookings[user_id]["bookings"].push(booking_user);
+
         booking_str = JSON.stringify(booking_dict, undefined, 2);
-        all_bookings["bookings"].push(booking_user);
         alert("(fake) Booking successful!\n" + booking_str);
       }
 
       function display_all() {
-        booking_str = JSON.stringify(all_bookings, undefined, 2);
+        var x = document.getElementById("frm2");
+        username = x.elements[0].value;
+        if (!(all_users.includes(username))) {
+          alert("Username doesn't exist!")
+          return;
+        }
+        _user_id = all_users.indexOf(username) + 1;
+        
+        booking_str = JSON.stringify(all_bookings[_user_id], undefined, 2);
         document.getElementById("json").innerHTML = booking_str;
       }
 
@@ -169,8 +186,6 @@
           return;
         }
         all_users.push(username);
-        all_users = [...new Set(all_users)];
-        console.log(all_users)
         user_id = all_users.length;
       }
 
@@ -211,7 +226,10 @@
     </table>
     <br>
     <div>
-      <button onclick="display_all()">Show list of all booking requests</button>
+      <form id="frm2">
+        Show requests of which username?: <input type="text" name="fname">
+      </form>
+      <button onclick="display_all()">Show all booking requests</button>
       <pre id="json"></pre>
     </div>
   </body>
